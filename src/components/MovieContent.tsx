@@ -48,13 +48,13 @@ function MovieContent() {
 
   if (!movie) {
     return (
-      <div className="max-w-5xl px-3 mx-auto my-20">
-        <div className="md:flex-row flex-col flex items-center">
+      <div className="max-w-4xl px-5 mx-auto my-20">
+        <div className="md:flex-row flex-col flex items-center md:items-start">
           <Skeleton className="w-[14.5rem] h-[22.5rem]"></Skeleton>
           <div>
             <CardHeader>
               <Skeleton className="h-5 w-20"></Skeleton>
-              <Skeleton className="h-[10rem] w-[27rem] md:w-[45rem]"></Skeleton>
+              <Skeleton className="h-[10rem] w-[27rem] md:w-[40rem]"></Skeleton>
             </CardHeader>
             <CardContent className="flex flex-col justify-center gap-2">
               <Skeleton className="h-5 w-[4rem]"></Skeleton>
@@ -67,31 +67,33 @@ function MovieContent() {
   }
 
   return (
-    <div className="max-w-5xl px-3 mx-auto my-20">
-      <div className="md:flex-row flex-col flex items-center">
+    <div className="max-w-4xl px-5 mx-auto my-20">
+      <div className="md:flex-row flex-col flex items-center md:items-start gap-6">
         <img
-          className="rounded-md"
+          className="rounded-md md:sticky md:top-16"
           src={movie.medium_cover_image}
           alt={movie.title_long}
         />
         <div>
-          <CardHeader>
-            <CardTitle>{movie.title_long}</CardTitle>
-            {movie.description_full ? (
-              <CardDescription>{movie.description_full}</CardDescription>
-            ) : (
-              <CardDescription>No Description for this movie</CardDescription>
-            )}
-          </CardHeader>
-          <CardContent className="flex flex-col justify-center">
-            <p>Rating: {movie.rating}</p>
-            <p>
-              Movie URL:{" "}
-              <Link to={movie.url} target="_blank">
-                <Button variant="link">{movie.url}</Button>
-              </Link>
-            </p>
-          </CardContent>
+          <CardTitle>{movie.title_long}</CardTitle>
+          {movie.description_full ? (
+            <CardDescription>{movie.description_full}</CardDescription>
+          ) : (
+            <CardDescription>No Description for this movie</CardDescription>
+          )}
+          <p>Rating: {movie.rating}</p>
+          <p className="my-5">
+            <CardTitle className="mb-3">Movie URL</CardTitle>
+            <Link to={movie.url} target="_blank">
+              <Button variant="secondary">{movie.url}</Button>
+            </Link>
+          </p>
+          <CardTitle className="mb-1">Genre</CardTitle>
+          <div className="flex flex-row gap-2">
+            {movie.genres.map((genre) => (
+              <CardDescription>{genre}</CardDescription>
+            ))}
+          </div>
         </div>
       </div>
     </div>

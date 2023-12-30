@@ -17,7 +17,7 @@ function Pagination({
 }: PaginationProps) {
   return (
     <div className="sticky top-28 md:top-14 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex justify-center gap-2 items-center py-2">
+      <div className="flex justify-center md:justify-start gap-2 items-center py-2">
         <Button
           size="sm"
           onClick={() => onPageChange(currentPage - 1)}

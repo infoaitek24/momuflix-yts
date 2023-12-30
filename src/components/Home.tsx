@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import Pagination from "./Pagination";
 import MovieCard from "./MovieCard";
 import Skeleton from "./SkeletonCard";
+import FilterMovies from "./FilterMovies";
 
 export interface Movie {
   id: number;
@@ -21,13 +22,18 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [visiblePages, setVisiblePages] = useState<number[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
-  const getMovies = async (query: string = "", page: number = 1) => {
+  const getMovies = async (
+    query: string = "",
+    page: number = 1,
+    genre: string = ""
+  ) => {
     try {
       setLoading(true);
       const apiUrl = query
-        ? `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=10&query_term=${query}&page=${page}`
-        : `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=10&page=${page}`;
+        ? `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=10&query_term=${query}&page=${page}&genre=${genre}`
+        : `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=10&page=${page}&genre=${genre}`;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -49,8 +55,8 @@ function Home() {
   };
 
   useEffect(() => {
-    getMovies();
-  }, []);
+    getMovies(searchQuery, 1, selectedGenres.join());
+  }, [searchQuery, selectedGenres]);
 
   useEffect(() => {
     if (searchQuery.trim() !== "") {
@@ -70,7 +76,7 @@ function Home() {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    getMovies(searchQuery, newPage);
+    getMovies(searchQuery, newPage, selectedGenres.join());
   };
 
   const updateVisiblePages = () => {
@@ -92,16 +98,30 @@ function Home() {
     );
   };
 
+  // Filter
+  const handleFilterChange = (genres: string[]) => {
+    setSelectedGenres(genres);
+  };
+
+  const filteredMovies = movies
+    ? movies.filter((movie) =>
+        selectedGenres.length === 0
+          ? true
+          : movie.genres.some((genre) => selectedGenres.includes(genre))
+      )
+    : [];
+
   return (
     <main className="max-w-4xl mx-auto px-5 my-6">
-      <div className="flex flex-col md:grid md:grid-cols-7 gap-6">
-        <div className="col-span-3 py-2 sticky top-14 z-50">
+      <div className="flex flex-col md:grid md:grid-cols-12 gap-6">
+        <div className="col-span-4 py-2 sticky top-14 z-50">
           <SearchBar
             searchQuery={searchQuery}
             onSearchChange={handleSearchChange}
           />
+          <FilterMovies onFilterChange={handleFilterChange} />
         </div>
-        <div className="col-span-4">
+        <div className="col-span-8">
           {totalPages > 0 && (
             <Pagination
               currentPage={currentPage}
@@ -111,14 +131,24 @@ function Home() {
             />
           )}
           {loading && <Skeleton />}
-          {movies?.length > 0 && !loading ? (
-            <div className="grid grid-cols-4 gap-y-10 gap-3">
-              {movies.map((movie) => (
+          {filteredMovies.length > 0 && !loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-10 gap-3">
+              {filteredMovies.map((movie) => (
                 <MovieCard key={movie.id} movie={movie} />
               ))}
             </div>
           ) : (
-            <div className="col-span-4 sm:col-span-2">Not Found</div>
+            <div className="col-span-4 sm:col-span-2">
+              {searchQuery && <p>{searchQuery} is not Found</p>}
+              {selectedGenres && (
+                <p>
+                  Filtered List are
+                  {selectedGenres.map((gen) => (
+                    <p>{gen}</p>
+                  ))}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>

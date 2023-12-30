@@ -9,7 +9,7 @@ interface MovieCardProps {
 
 function MovieCard({ movie }: MovieCardProps) {
   return (
-    <div className="col-span-2">
+    <div className="col-span-1">
       <Link
         to={`movie/${movie.id}`}
         target="_blank"
