@@ -22,7 +22,7 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [visiblePages, setVisiblePages] = useState<number[]>([]);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string>("");
 
   const getMovies = async (
     query: string = "",
@@ -32,15 +32,15 @@ function Home() {
     try {
       setLoading(true);
       const apiUrl = query
-        ? `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=10&query_term=${query}&page=${page}&genre=${genre}`
-        : `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=10&page=${page}&genre=${genre}`;
+        ? `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=30&query_term=${query}&page=${page}&genre=${genre}`
+        : `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=30&page=${page}&genre=${genre}`;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
 
       if (data.status === "ok") {
         setMovies(data.data.movies);
-        setTotalPages(Math.ceil(data.data.movie_count / 10));
+        setTotalPages(Math.ceil(data.data.movie_count / 30));
       } else {
         setMovies([]);
         setTotalPages(0);
@@ -55,8 +55,8 @@ function Home() {
   };
 
   useEffect(() => {
-    getMovies(searchQuery, 1, selectedGenres.join());
-  }, [searchQuery, selectedGenres]);
+    getMovies(searchQuery, 1, selectedGenre);
+  }, [searchQuery, selectedGenre]);
 
   useEffect(() => {
     if (searchQuery.trim() !== "") {
@@ -76,7 +76,7 @@ function Home() {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    getMovies(searchQuery, newPage, selectedGenres.join());
+    getMovies(searchQuery, newPage, selectedGenre);
   };
 
   const updateVisiblePages = () => {
@@ -99,15 +99,13 @@ function Home() {
   };
 
   // Filter
-  const handleFilterChange = (genres: string[]) => {
-    setSelectedGenres(genres);
+  const handleFilterChange = (genre: string) => {
+    setSelectedGenre(genre);
   };
 
   const filteredMovies = movies
     ? movies.filter((movie) =>
-        selectedGenres.length === 0
-          ? true
-          : movie.genres.some((genre) => selectedGenres.includes(genre))
+        selectedGenre === "" ? true : movie.genres.includes(selectedGenre)
       )
     : [];
 
@@ -140,14 +138,6 @@ function Home() {
           ) : (
             <div className="col-span-4 sm:col-span-2">
               {searchQuery && <p>{searchQuery} is not Found</p>}
-              {selectedGenres && (
-                <p>
-                  Filtered List are
-                  {selectedGenres.map((gen) => (
-                    <p>{gen}</p>
-                  ))}
-                </p>
-              )}
             </div>
           )}
         </div>

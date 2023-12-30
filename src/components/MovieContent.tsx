@@ -67,7 +67,7 @@ function MovieContent() {
   }
 
   return (
-    <div className="max-w-4xl px-5 mx-auto my-20">
+    <div className="max-w-4xl px-5 mx-auto my-6 sm:my-20">
       <div className="md:flex-row flex-col flex items-center md:items-start gap-6">
         <img
           className="rounded-md md:sticky md:top-16"
@@ -75,24 +75,30 @@ function MovieContent() {
           alt={movie.title_long}
         />
         <div>
-          <CardTitle>{movie.title_long}</CardTitle>
+          <CardTitle className="mb-3 text-sm sm:text-lg">
+            {movie.title_long}
+          </CardTitle>
           {movie.description_full ? (
             <CardDescription>{movie.description_full}</CardDescription>
           ) : (
             <CardDescription>No Description for this movie</CardDescription>
           )}
-          <p>Rating: {movie.rating}</p>
-          <p className="my-5">
-            <CardTitle className="mb-3">Movie URL</CardTitle>
-            <Link to={movie.url} target="_blank">
-              <Button variant="secondary">{movie.url}</Button>
-            </Link>
-          </p>
-          <CardTitle className="mb-1">Genre</CardTitle>
-          <div className="flex flex-row gap-2">
-            {movie.genres.map((genre) => (
-              <CardDescription>{genre}</CardDescription>
-            ))}
+          <div className="sticky bottom-5 z-50 w-full p-3 rounded-lg bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <p>Rating: {movie.rating}</p>
+            <p className="my-5">
+              <CardTitle className="mb-3">Movie URL</CardTitle>
+              <Link to={movie.url} target="_blank">
+                <Button variant="secondary" size="sm">
+                  {movie.title_long}
+                </Button>
+              </Link>
+            </p>
+            <CardTitle className="mb-1">Genre</CardTitle>
+            <div className="flex flex-row gap-2">
+              {movie.genres.map((genre) => (
+                <CardDescription>{genre}</CardDescription>
+              ))}
+            </div>
           </div>
         </div>
       </div>

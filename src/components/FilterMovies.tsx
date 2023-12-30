@@ -15,19 +15,15 @@ const check_data = [
 ];
 
 interface FilterProps {
-  onFilterChange: (selectedGenres: string[]) => void;
+  onFilterChange: (selectedGenres: string) => void;
 }
 
 function FilterMovies({ onFilterChange }: FilterProps) {
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<string>("");
 
   const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const genre = event.target.value;
-    setSelectedGenres((prevGenres) =>
-      prevGenres.includes(genre)
-        ? prevGenres.filter((g) => g !== genre)
-        : [...prevGenres, genre]
-    );
+    setSelectedGenres(genre);
   };
 
   useEffect(() => {
@@ -40,9 +36,11 @@ function FilterMovies({ onFilterChange }: FilterProps) {
         <h2 className="font-semibold my-2 mt-7">Filter by Genre</h2>
         <div className="flex flex-col w-fit">
           {check_data.map((data) => (
-            <label key={data.id} className="flex gap-2">
+            <label key={data.id} htmlFor={data.name} className="flex gap-2">
               <input
-                type="checkbox"
+                type="radio"
+                id={data.name}
+                name="genre" // Add a common name for all radio buttons in the group
                 value={data.name}
                 checked={selectedGenres.includes(data.name)}
                 onChange={handleGenreChange}
