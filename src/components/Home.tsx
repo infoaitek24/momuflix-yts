@@ -70,10 +70,12 @@ function Home() {
     updateVisiblePages();
   }, [currentPage, totalPages]);
 
+  // search
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
 
+  // pagination
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
     getMovies(searchQuery, newPage, selectedGenre);
@@ -103,6 +105,10 @@ function Home() {
     setSelectedGenre(genre);
   };
 
+  const handleClearFilter = () => {
+    setSelectedGenre("");
+  };
+
   const filteredMovies = movies
     ? movies.filter((movie) =>
         selectedGenre === "" ? true : movie.genres.includes(selectedGenre)
@@ -113,11 +119,18 @@ function Home() {
     <main className="max-w-4xl mx-auto px-5 my-6">
       <div className="flex flex-col md:grid md:grid-cols-12 gap-6">
         <div className="col-span-4 py-2 sticky top-14 z-50">
-          <SearchBar
-            searchQuery={searchQuery}
-            onSearchChange={handleSearchChange}
-          />
-          <FilterMovies onFilterChange={handleFilterChange} />
+          <div className="flex md:block items-center gap-2">
+            <SearchBar
+              searchQuery={searchQuery}
+              onSearchChange={handleSearchChange}
+            />
+            <div className="sticky top-28">
+              <FilterMovies
+                onFilterChange={handleFilterChange}
+                onClearFilter={handleClearFilter}
+              />
+            </div>
+          </div>
         </div>
         <div className="col-span-8">
           {totalPages > 0 && (

@@ -1,5 +1,13 @@
-// FilterMovies.tsx
 import { useState, useEffect } from "react";
+import { Button } from "./ui/button";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const check_data = [
   { id: 1, name: "Action" },
@@ -16,14 +24,22 @@ const check_data = [
 
 interface FilterProps {
   onFilterChange: (selectedGenres: string) => void;
+  onClearFilter: () => void;
 }
 
-function FilterMovies({ onFilterChange }: FilterProps) {
+function FilterMovies({ onFilterChange, onClearFilter }: FilterProps) {
   const [selectedGenres, setSelectedGenres] = useState<string>("");
 
-  const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const genre = event.target.value;
-    setSelectedGenres(genre);
+  const handleGenreChange = (event: string) => {
+    setSelectedGenres(event);
+    if (event === "All") {
+      clearFilter();
+    }
+  };
+
+  const clearFilter = () => {
+    setSelectedGenres("");
+    onClearFilter();
   };
 
   useEffect(() => {
@@ -32,24 +48,36 @@ function FilterMovies({ onFilterChange }: FilterProps) {
 
   return (
     <>
-      <div className="sticky top-28 hidden md:block">
-        <h2 className="font-semibold my-2 mt-7">Filter by Genre</h2>
-        <div className="flex flex-col w-fit">
-          {check_data.map((data) => (
-            <label key={data.id} htmlFor={data.name} className="flex gap-2">
-              <input
-                type="radio"
-                id={data.name}
-                name="genre" // Add a common name for all radio buttons in the group
-                value={data.name}
-                checked={selectedGenres.includes(data.name)}
-                onChange={handleGenreChange}
-              />
-              {data.name}
-            </label>
-          ))}
-        </div>
+      <h2 className="font-semibold my-2 mt-7 hidden md:block">
+        Filter by Genre
+      </h2>
+      <div className="flex flex-col w-fit">
+        <Select
+          defaultValue={selectedGenres}
+          onValueChange={(value) => handleGenreChange(value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Genre" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All</SelectItem>
+            {check_data.map((data) => (
+              <SelectItem key={data.id} value={data.name}>
+                {data.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
+
+      <Button
+        onClick={clearFilter}
+        variant="destructive"
+        className="mt-5 hidden md:block"
+        size="sm"
+      >
+        Clear Filter
+      </Button>
     </>
   );
 }
