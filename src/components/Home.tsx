@@ -119,17 +119,15 @@ function Home() {
     <main className="max-w-4xl mx-auto px-5 my-6">
       <div className="flex flex-col md:grid md:grid-cols-12 gap-6">
         <div className="col-span-4 py-2 sticky top-14 z-50">
-          <div className="flex md:block items-center gap-2">
+          <div className="flex md:block items-center gap-2 md:sticky md:top-14 md:z-50">
             <SearchBar
               searchQuery={searchQuery}
               onSearchChange={handleSearchChange}
             />
-            <div className="sticky top-28">
-              <FilterMovies
-                onFilterChange={handleFilterChange}
-                onClearFilter={handleClearFilter}
-              />
-            </div>
+            <FilterMovies
+              onFilterChange={handleFilterChange}
+              onClearFilter={handleClearFilter}
+            />
           </div>
         </div>
         <div className="col-span-8">

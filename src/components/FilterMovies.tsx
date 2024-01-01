@@ -48,36 +48,38 @@ function FilterMovies({ onFilterChange, onClearFilter }: FilterProps) {
 
   return (
     <>
-      <h2 className="font-semibold my-2 mt-7 hidden md:block">
-        Filter by Genre
-      </h2>
-      <div className="flex flex-col w-fit">
-        <Select
-          defaultValue={selectedGenres}
-          onValueChange={(value) => handleGenreChange(value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Genre" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All</SelectItem>
-            {check_data.map((data) => (
-              <SelectItem key={data.id} value={data.name}>
-                {data.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <div className="sticky top-28">
+        <h2 className="font-semibold my-2 mt-7 hidden md:block">
+          Filter by Genre
+        </h2>
+        <div className="flex flex-col w-fit bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <Select
+            defaultValue={selectedGenres}
+            onValueChange={(value) => handleGenreChange(value)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Genre" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All</SelectItem>
+              {check_data.map((data) => (
+                <SelectItem key={data.id} value={data.name}>
+                  {data.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <Button
-        onClick={clearFilter}
-        variant="destructive"
-        className="mt-5 hidden md:block"
-        size="sm"
-      >
-        Clear Filter
-      </Button>
+        <Button
+          onClick={clearFilter}
+          variant="destructive"
+          className="mt-5 hidden md:block"
+          size="sm"
+        >
+          Clear Filter
+        </Button>
+      </div>
     </>
   );
 }
