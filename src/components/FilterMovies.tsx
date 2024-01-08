@@ -48,7 +48,7 @@ function FilterMovies({ onFilterChange, onClearFilter }: FilterProps) {
 
   return (
     <>
-      <div className="sticky top-28">
+      <div className="sticky top-28 hidden md:block">
         <h2 className="font-semibold my-2 mt-7 hidden md:block">
           Filter by Genre
         </h2>

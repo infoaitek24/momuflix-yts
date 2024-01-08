@@ -4,6 +4,7 @@ import Pagination from "./Pagination";
 import MovieCard from "./MovieCard";
 import Skeleton from "./SkeletonCard";
 import FilterMovies from "./FilterMovies";
+import FilterMoviesMobile from "./FilterMoviesMobile";
 
 export interface Movie {
   id: number;
@@ -125,6 +126,10 @@ function Home() {
               onSearchChange={handleSearchChange}
             />
             <FilterMovies
+              onFilterChange={handleFilterChange}
+              onClearFilter={handleClearFilter}
+            />
+            <FilterMoviesMobile
               onFilterChange={handleFilterChange}
               onClearFilter={handleClearFilter}
             />
