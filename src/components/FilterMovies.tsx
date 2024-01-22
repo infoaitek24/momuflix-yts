@@ -9,6 +9,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
 const check_data = [
   { id: 1, name: "Action" },
   { id: 2, name: "Drama" },
@@ -48,6 +59,7 @@ function FilterMovies({ onFilterChange, onClearFilter }: FilterProps) {
 
   return (
     <>
+      {/* Desktop */}
       <div className="sticky top-28 hidden md:block">
         <h2 className="font-semibold my-2 mt-7 hidden md:block">
           Filter by Genre
@@ -79,6 +91,55 @@ function FilterMovies({ onFilterChange, onClearFilter }: FilterProps) {
         >
           Clear Filter
         </Button>
+      </div>
+
+      {/* Mobile */}
+      <div className="sticky top-28 block md:hidden">
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>Filter Genre</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <div className="mx-auto w-full max-w-3xl">
+              <DrawerHeader>
+                <DrawerTitle className="mb-2">Filter Genre</DrawerTitle>
+                <DrawerDescription>
+                  <Button
+                    className="w-full mb-2"
+                    onClick={() => handleGenreChange("All")}
+                    disabled={selectedGenres === "All"}
+                  >
+                    All
+                  </Button>
+                  <div className="grid grid-cols-2 gap-2">
+                    {check_data.map((data) => (
+                      <Button
+                        key={data.id}
+                        onClick={() => handleGenreChange(data.name)}
+                        disabled={selectedGenres === data.name}
+                      >
+                        {data.name}
+                      </Button>
+                    ))}
+                  </div>
+                </DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <Button
+                  onClick={clearFilter}
+                  variant="destructive"
+                  className="mt-5 hidden md:block"
+                  size="sm"
+                >
+                  Clear Filter
+                </Button>
+                <DrawerClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
     </>
   );
