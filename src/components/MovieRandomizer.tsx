@@ -22,8 +22,8 @@ function MovieRandomizer() {
   const getMovies = async (genre: string = "") => {
     try {
       setLoading(true);
-      // Random page value from 1 - 50 using random()
-      const randomPage = Math.floor(Math.random() * 50) + 1;
+      // Random page value from 1 - 200 using random()
+      const randomPage = Math.floor(Math.random() * 200) + 1;
 
       const apiUrl = `https://yts.mx/api/v2/list_movies.json?quality=2160p&limit=1&genre=${genre}&page=${randomPage}`;
 
@@ -72,13 +72,18 @@ function MovieRandomizer() {
     <main className="max-w-4xl mx-auto px-5 my-6">
       <div className="flex flex-col md:grid md:grid-cols-12 gap-6">
         <div className="col-span-4 py-2 sticky top-14 z-50">
-          <FilterMovies
-            onFilterChange={handleFilterChange}
-            onClearFilter={handleClearFilter}
-          />
-          <Button onClick={getRandomMovie} className="mt-2" size="sm">
-            Get Random Movie
-          </Button>
+          <div className="flex md:block justify-between items-center gap-2 md:sticky md:top-14 md:z-50">
+            <FilterMovies
+              onFilterChange={handleFilterChange}
+              onClearFilter={handleClearFilter}
+            />
+            <Button
+              onClick={getRandomMovie}
+              className="mt-2 md:h-8 h-9 md:py-3 py-2"
+            >
+              Get Random Movie
+            </Button>
+          </div>
         </div>
         <div className="col-span-8">
           {loading && <SkeletonMRCard />}
