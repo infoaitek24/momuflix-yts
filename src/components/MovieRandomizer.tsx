@@ -72,6 +72,19 @@ function MovieRandomizer() {
     <main className="max-w-4xl mx-auto px-5 my-6">
       <div className="flex flex-col md:grid md:grid-cols-12 gap-6">
         <div className="col-span-4 py-2 sticky top-14 z-50">
+          <h1 className="text-sm mb-2">
+            Welcome to movie randomizer! In this section, clicking the button{" "}
+            <span>
+              <Button size="sm" variant="link" className="p-0">
+                Randomize
+              </Button>
+            </span>{" "}
+            will give you a random movie to watch. Play along with filtering the
+            genre.
+          </h1>
+          <p className="text-xs italic text-primary">
+            Note: Movie quality is set to 2160p
+          </p>
           <div className="flex md:block justify-between items-center gap-2 md:sticky md:top-14 md:z-50">
             <FilterMovies
               onFilterChange={handleFilterChange}
@@ -81,7 +94,7 @@ function MovieRandomizer() {
               onClick={getRandomMovie}
               className="mt-2 md:h-8 h-9 md:py-3 py-2"
             >
-              Get Random Movie
+              Randomize
             </Button>
           </div>
         </div>

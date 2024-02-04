@@ -83,7 +83,7 @@ function MovieContent() {
           ) : (
             <CardDescription>No Description for this movie</CardDescription>
           )}
-          <div className="sticky bottom-0 z-50 w-full p-3 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="sticky bottom-0 z-50 w-full p-3 rounded-t-2xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <p>Rating: {movie.rating}</p>
             <p className="my-5">
               <CardTitle className="mb-3">Movie URL</CardTitle>

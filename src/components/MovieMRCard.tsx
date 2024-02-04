@@ -11,7 +11,7 @@ function MovieMRCard({ movie }: MovieMRCardProps) {
   return (
     <div className="col-span-1">
       <Link
-        to={`movie/${movie.id}`}
+        to={`/movie/${movie.id}`}
         target="_blank"
         className="hover:text-primary"
       >
